@@ -2,28 +2,20 @@ import React from "react";
 import { useState } from "react";
 
 import ControlPanel from "./components/controlPanel/controlPanel";
-import Login from "./components/login/login";
+import LoginButton from "./components/login/login";
+import LogoutButton from "./components/logout/logout";
 
 function App() {
-  // State variables
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  // Handler functions
-  const handleLogin = () => {
-    setLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    setLoggedIn(false);
-  };
 
   return (
     <div>
-      {!loggedIn ? (
+      <LoginButton />
+      <LogoutButton />
+      {/* {!loggedIn ? (
           <Login handleLogin={handleLogin}/>
       ) : (
           <ControlPanel handleLogout={handleLogout}/>
-      )}
+      )} */}
     </div>
   );
 }

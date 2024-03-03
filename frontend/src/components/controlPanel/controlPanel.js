@@ -1,9 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./controlPanel.css";
 
 const ControlPanel = () => {
-    const { logout, isAuthenticated } = useAuth0();
+    const { logout, isAuthenticated, user } = useAuth0();
     const [transcript, setTranscript] = useState('');
     const [isListening, setIsListening] = useState(false);
     const [isOrdering, setIsOrdering] = useState(false);
@@ -11,6 +11,25 @@ const ControlPanel = () => {
     const [orders, setOrders] = useState([]);
     const [orderID, setOrderID] = useState(1);
     const [fulfilledOrders, setFulfilledOrders] = useState([]);
+
+    const fetchMenuItems = () => {
+        fetch('/get-menu-items', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_id: user.sub })
+        })
+        .then(response => response.json())
+        .then(data => setMenuItems(data.menu_items))
+        .catch(error => console.error('Error fetching menu items:', error));
+    };
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            fetchMenuItems();
+        }
+      }, [isAuthenticated]);
   
     const recognition = new window.webkitSpeechRecognition();
     recognition.lang = 'en-US';
@@ -34,7 +53,7 @@ const ControlPanel = () => {
       setIsOrdering(false);
     
       // Send the transcript to the backend
-      fetch('http://127.0.0.1:5000/order', {
+      fetch('/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -61,22 +80,73 @@ const ControlPanel = () => {
       .catch(error => console.error('Error:', error));
     };
   
+    // const addItemToMenu = () => {
+    //   const itemName = window.prompt("Enter item name:");
+    //   if (!itemName) return; // Exit if item name is empty or user cancels
+    //   let price;
+    //   do {
+    //     price = parseFloat(window.prompt("Enter item price:"));
+    //   } while (isNaN(price)); // Keep prompting until valid price is entered
+    //   const newItem = { itemName, price };
+    //   setMenuItems([...menuItems, newItem]);
+    // };
     const addItemToMenu = () => {
-      const itemName = window.prompt("Enter item name:");
-      if (!itemName) return; // Exit if item name is empty or user cancels
-      let price;
-      do {
-        price = parseFloat(window.prompt("Enter item price:"));
-      } while (isNaN(price)); // Keep prompting until valid price is entered
-      const newItem = { itemName, price };
-      setMenuItems([...menuItems, newItem]);
+        const itemName = window.prompt("Enter item name:");
+        if (!itemName) return; // Exit if item name is empty or user cancels
+        let price;
+        do {
+            price = parseFloat(window.prompt("Enter item price:"));
+        } while (isNaN(price)); // Keep prompting until valid price is entered
+        const newItem = { itemName, price };
+    
+        fetch("/add-menu-items", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ user_id: "github|84345327", menu_item: newItem }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                setMenuItems([...menuItems, newItem]);
+            })
+            .catch(error => console.error('Error adding menu item:', error));
     };
   
+    // const removeItemFromMenu = (index) => {
+    //   const updatedMenu = [...menuItems];
+    //   updatedMenu.splice(index, 1);
+    //   setMenuItems(updatedMenu);
+    // };
     const removeItemFromMenu = (index) => {
-      const updatedMenu = [...menuItems];
-      updatedMenu.splice(index, 1);
-      setMenuItems(updatedMenu);
+        const updatedMenu = [...menuItems];
+        updatedMenu.splice(index, 1);
+        setMenuItems(updatedMenu);
+      
+        // Send a request to the server to remove the item
+        fetch('/remove-menu-item', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+            index,
+            user_id: user.sub  // Send the user_id along with the index
+          })
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to remove item from menu');
+          }
+          // If the request is successful, do nothing as the state has already been updated
+        })
+        .catch(error => {
+          console.error('Error removing item from menu:', error);
+          // If there's an error, revert the state back to the original menu items
+          setMenuItems([...menuItems]);
+        });
     };
+    
   
     const deleteOrder = (index) => {
       const updatedOrders = [...orders];

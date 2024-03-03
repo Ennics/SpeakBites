@@ -8,7 +8,8 @@ const LoginButton = () => {
   return (
     !isAuthenticated && (
     <div className="login-container">
-        <button className="login-button" onClick={() => loginWithRedirect()}>Log In</button>
+        <img src="/speakbite_logo.png" alt="SpeakBites" className="logo"/>
+        <button className="login-button" onClick={() => loginWithRedirect()}>Log In / Sign Up</button>
     </div>
     )
   );

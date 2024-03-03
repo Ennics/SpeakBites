@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from openai import OpenAI
 from dotenv import load_dotenv
+import json
 import os
 
 load_dotenv()
@@ -28,7 +29,10 @@ def ask_gpt(prompt):
             }
         ]
     )
-    return response.choices[0].message.content
+    raw_json = response.choices[0].message.content
+
+    return json.loads(raw_json)
+
 # Define route for home page
 @app.route('/')
 def index():
@@ -39,7 +43,8 @@ def index():
 # Define route for handling chat requests
 @app.route('/order', methods=['POST'])
 def chat():
-    user_message = request.form['user_message']
+    request_data = request.get_json()
+    user_message = request_data.get('user_message')
     bot_response = ask_gpt(user_message)
     return jsonify({'bot_response': bot_response})
 

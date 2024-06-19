@@ -1,8 +1,8 @@
 .control-panel-container {
     height: 100vh;
     width: 100vw;
-    background-color: #add8e6; /* light gently blue */
-    font-family: 'Helvetica Neue', sans-serif; /* Apple-style font */
+    background-color: #add8e6;
+    font-family: 'Helvetica Neue', sans-serif;
     display: flex;
     flex-direction: column;
 }
@@ -10,7 +10,7 @@
 .nav-bar-container {
     height: 100px;
     width: 100vw;
-    background-color: #f1f1f1; /* light gently blue */
+    background-color: #f1f1f1;
     display: flex;
     align-items: center; 
 }
@@ -18,7 +18,7 @@
 .control-panel-body-container {
     height: 100%;
     width: 100vw;
-    background-color: #ffffff; /* light gently blue */
+    background-color: #ffffff;
     display: flex;
 }
 
@@ -34,15 +34,15 @@
     margin: 10px;
     font-size: 16px;
     padding: 10px 20px;
-    border: 2px solid #4682b4; /* lighter blue */
-    background-color: #4682b4; /* lighter blue */
+    border: 2px solid #4682b4;
+    background-color: #4682b4;
     color: white;
     border-radius: 20px;
     cursor: pointer;
 }
 
 .logout-button:hover {
-    background-color: #4169e1; /* slightly darker blue on hover */
+    background-color: #4169e1;
 }
 
 .control-panel-body-left {
@@ -50,7 +50,7 @@
     border-radius: 20px;
     height: 95%;
     width: 60vw;
-    background-color: #a0cfd2; /* light gently blue */
+    background-color: #a0cfd2;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -83,10 +83,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.filled-order {
-    
 }
 
 .control-panel-body-right {
@@ -156,7 +152,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #1e344c; /* Semi-transparent black background */
+    background-color: #1e344c;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -168,7 +164,7 @@
 .menu-list {
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Adjust spacing between items */
+    gap: 10px;
 }
 
 .menu-item {
@@ -182,7 +178,7 @@
 }
 
 .item-price {
-    margin-right: 10px; /* Adjust spacing between name and price */
+    margin-right: 10px;
 }
 
 .red-trash-icon {

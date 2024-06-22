@@ -52,7 +52,6 @@ const ControlPanel = () => {
       setIsListening(false);
       setIsOrdering(false);
     
-      // Send the transcript to the backend
       fetch('/order', {
         method: 'POST',
         headers: {
@@ -67,36 +66,23 @@ const ControlPanel = () => {
         return response.json();
       })
       .then(data => {
-        // Handle the received data
-        // Assuming the data structure is as expected
         const newOrder = {
           orderID: orderID,
           items: data.bot_response.orders
         };
-        // Update state with the new order
         setOrders([...orders, newOrder]);
-        setOrderID(orderID + 1); // Increment orderID
+        setOrderID(orderID + 1);
       })
       .catch(error => console.error('Error:', error));
     };
   
-    // const addItemToMenu = () => {
-    //   const itemName = window.prompt("Enter item name:");
-    //   if (!itemName) return; // Exit if item name is empty or user cancels
-    //   let price;
-    //   do {
-    //     price = parseFloat(window.prompt("Enter item price:"));
-    //   } while (isNaN(price)); // Keep prompting until valid price is entered
-    //   const newItem = { itemName, price };
-    //   setMenuItems([...menuItems, newItem]);
-    // };
     const addItemToMenu = () => {
         const itemName = window.prompt("Enter item name:");
-        if (!itemName) return; // Exit if item name is empty or user cancels
+        if (!itemName) return;
         let price;
         do {
             price = parseFloat(window.prompt("Enter item price:"));
-        } while (isNaN(price)); // Keep prompting until valid price is entered
+        } while (isNaN(price));
         const newItem = { itemName, price };
     
         fetch("/add-menu-items", {

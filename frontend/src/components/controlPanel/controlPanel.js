@@ -99,17 +99,11 @@ const ControlPanel = () => {
             .catch(error => console.error('Error adding menu item:', error));
     };
   
-    // const removeItemFromMenu = (index) => {
-    //   const updatedMenu = [...menuItems];
-    //   updatedMenu.splice(index, 1);
-    //   setMenuItems(updatedMenu);
-    // };
     const removeItemFromMenu = (index) => {
         const updatedMenu = [...menuItems];
         updatedMenu.splice(index, 1);
         setMenuItems(updatedMenu);
       
-        // Send a request to the server to remove the item
         fetch('/remove-menu-item', {
           method: 'POST',
           headers: {
@@ -117,7 +111,7 @@ const ControlPanel = () => {
           },
           body: JSON.stringify({ 
             index,
-            user_id: user.sub  // Send the user_id along with the index
+            user_id: user.sub
           })
         })
         .then(response => {

@@ -118,11 +118,9 @@ const ControlPanel = () => {
           if (!response.ok) {
             throw new Error('Failed to remove item from menu');
           }
-          // If the request is successful, do nothing as the state has already been updated
         })
         .catch(error => {
           console.error('Error removing item from menu:', error);
-          // If there's an error, revert the state back to the original menu items
           setMenuItems([...menuItems]);
         });
     };

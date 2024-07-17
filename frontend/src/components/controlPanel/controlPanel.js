@@ -96,7 +96,7 @@ const ControlPanel = () => {
             .then(data => {
                 setMenuItems([...menuItems, newItem]);
             })
-            .catch(error => console.error('Error adding menu item:', error));
+            .catch(error => console.error('Error: could not add menu item:', error));
     };
   
     const removeItemFromMenu = (index) => {
